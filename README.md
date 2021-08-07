@@ -9,7 +9,7 @@ This is my implementation of an awesome [dribble animation](https://dribbble.com
 
 ## Built With
 
-I used [Vite](https://vitejs.dev/) with React and Typescript.
+I used [Vite](https://vitejs.dev/) with React and Typescript. It also uses the experimental [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API), which is [not yet fully supported](https://caniuse.com/web-animation).
 
 ## Try it yourself
 
