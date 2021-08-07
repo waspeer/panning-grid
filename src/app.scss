@@ -96,7 +96,7 @@ html {
   background: none;
   
   // Gallery mode
-  .gallery[data-mode="gallery"] & {
+  .gallery[data-mode="grid"] & {
     width: var(--image-width);
     height: var(--image-height);
     border: 1px solid white;
@@ -105,7 +105,7 @@ html {
 
   // Detail mode or transitioning
   .gallery[data-mode="detail"] &,
-  .gallery[data-mode="gallery"] &[data-transitioning] {
+  .gallery[data-mode="grid"] &[data-transitioning] {
     width: 100vw;
     height: 100vh;
     border: none;
@@ -132,7 +132,7 @@ html {
   }
 
   .gallery[data-mode="detail"] & img,
-  .gallery[data-mode="gallery"] &[data-transitioning] img {
+  .gallery[data-mode="grid"] &[data-transitioning] img {
     display: block;
   }
 
@@ -164,7 +164,7 @@ html {
   }
 
   // Gallery or transitioning from gallery to detail
-  .gallery[data-mode="gallery"] & .overlay,
+  .gallery[data-mode="grid"] & .overlay,
   .gallery[data-mode="detail"] &[data-transitioning] .overlay {
     justify-content: flex-end;
     padding: calc( var(--gap) / 2 );
@@ -182,7 +182,7 @@ html {
 
   // Detail or transitioning from detail to gallery
   .gallery[data-mode="detail"] &:not([data-transitioning]) .overlay,
-  .gallery[data-mode="gallery"] &[data-transitioning] .overlay {
+  .gallery[data-mode="grid"] &[data-transitioning] .overlay {
     justify-content: center;
     padding: calc( var(--gap) * 2 );
 
