@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #222;
+}
+
+.app {
+  --dx: 0;
+  --dy: 0;
+  --image-width: 40vw;
+  --image-height: calc( var(--image-width) * 0.56 );
+  --gap: 2rem;
+  --unit-width: calc( var(--image-width) + var(--gap) );
+  --unit-height: calc( var(--image-height) + var(--gap) );
+  --border-radius: calc( var(--image-width) * 0.06 );
+
+  overflow: hidden;
+  display: grid;
+  grid-template-areas: 'stack';
+  place-items: center;
+  
+  & > * {
+    grid-area: stack;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(5, var(--image-width));
+  grid-template-rows: repeat(5, var(--image-height));
+  gap: var(--gap);
+  place-content: center;
+  padding: var(--gap);
+
+  &[data-flipping] {
+    transition: none;
+  }
+}
+
+.galleryItem {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  opacity: 0.5;
+  transition: 0.2s all;
+  cursor: pointer;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background-color: #333;
+
+  &:hover, &[data-selected] {
+    opacity: 1;
+  }
+
+  & img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  }
+
+  .app[data-mode="detail"] &[data-selected] {
+    visibility: hidden;
+  }
+}
+
+.galleryOverlay {
+  pointer-events: none;
+
+  button {
+    background: none;
+    content: '';
+    width: var(--image-width);
+    height: var(--image-height);
+    border-radius: var(--border-radius);
+    border: 1px solid white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    // transition: opacity 0.2s;
+
+    .app[data-mode="detail"] & {
+      opacity: 0;
+    }
+  }
+}
+
+.detailView {
+  background: none;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0;
+  outline: none;
+
+  border: none;
+  width: 100vw;
+  height: 100vh;
+
+  .app[data-mode="gallery"] &:not([data-transitioning]) {
+    width: var(--image-width);
+    height: var(--image-height);
+    border-radius: var(--border-radius);
+    border: 1px solid white;
+  }
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  .app[data-mode="detail"] &,
+  &[data-transitioning] {
+    img {
+      display: block;
+    }
+  }
+}
