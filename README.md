@@ -7,6 +7,8 @@
 
 This is my implementation of an awesome [dribble animation](https://dribbble.com/shots/16075830-Archived-chronicles) by [Ali Zafar Iqbal](https://dribbble.com/Ferosnow95). I was inspired by one of the streams of [Keyframers](https://www.youtube.com/channel/UCtmYk7H-NNYLEe_LgBRYomA) to take on this challenge.
 
+[View the working demo!](https://panning-grid.netlify.app/)
+
 ## Built With
 
 I used [Vite](https://vitejs.dev/) with React and Typescript. It also uses the experimental [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API), which is [not yet fully supported](https://caniuse.com/web-animation).
