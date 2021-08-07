@@ -1,3 +1,6 @@
+// GLOBAL
+// ------
+
 * {
   box-sizing: border-box;
 }
@@ -6,20 +9,37 @@ html {
   background-color: #222;
 }
 
-.app {
-  --dx: 0;
-  --dy: 0;
+// UTILITY
+// -------
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 1px;
+  white-space: nowrap;
+}
+
+// APP STYLES
+// ----------
+
+.gallery {
   --image-width: 40vw;
   --image-height: calc( var(--image-width) * 0.56 );
-  --gap: 2rem;
   --unit-width: calc( var(--image-width) + var(--gap) );
   --unit-height: calc( var(--image-height) + var(--gap) );
   --border-radius: calc( var(--image-width) * 0.06 );
+  --gap: 2rem;
+  --dx: 0;
+  --dy: 0;
 
-  overflow: hidden;
   display: grid;
   grid-template-areas: 'stack';
   place-items: center;
+  overflow: hidden;
   
   & > * {
     grid-area: stack;
@@ -28,7 +48,7 @@ html {
   }
 }
 
-.gallery {
+.grid {
   display: grid;
   grid-template-columns: repeat(5, var(--image-width));
   grid-template-rows: repeat(5, var(--image-height));
@@ -41,84 +61,143 @@ html {
   }
 }
 
-.galleryItem {
-  border-radius: var(--border-radius);
+.grid-item {
+  position: relative;
   overflow: hidden;
-  opacity: 0.5;
-  transition: 0.2s all;
-  cursor: pointer;
-  border: none;
-  margin: 0;
-  padding: 0;
+  border-radius: var(--border-radius);
   background-color: #333;
+  opacity: 0.5;
 
   &:hover, &[data-selected] {
     opacity: 1;
   }
 
-  & img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
   }
 
-  .app[data-mode="detail"] &[data-selected] {
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gallery[data-mode="detail"] &[data-selected] {
     visibility: hidden;
   }
 }
 
-.galleryOverlay {
-  pointer-events: none;
-
-  button {
-    background: none;
-    content: '';
-    width: var(--image-width);
-    height: var(--image-height);
-    border-radius: var(--border-radius);
-    border: 1px solid white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: auto;
-    // transition: opacity 0.2s;
-
-    .app[data-mode="detail"] & {
-      opacity: 0;
-    }
-  }
-}
-
-.detailView {
-  background: none;
-  isolation: isolate;
+.detail-view {
+  position: relative;
   overflow: hidden;
-  padding: 0;
-  outline: none;
-
-  border: none;
-  width: 100vw;
-  height: 100vh;
-
-  .app[data-mode="gallery"] &:not([data-transitioning]) {
+  background: none;
+  
+  // Gallery mode
+  .gallery[data-mode="gallery"] & {
     width: var(--image-width);
     height: var(--image-height);
-    border-radius: var(--border-radius);
     border: 1px solid white;
+    border-radius: var(--border-radius);
   }
 
-  & img {
+  // Detail mode or transitioning
+  .gallery[data-mode="detail"] &,
+  .gallery[data-mode="gallery"] &[data-transitioning] {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+  }
+
+  // Pseudo button
+  // -------------
+
+  button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  // Image
+  // -----
+
+  img {
+    display: none;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: none;
   }
 
-  .app[data-mode="detail"] &,
-  &[data-transitioning] {
-    img {
-      display: block;
+  .gallery[data-mode="detail"] & img,
+  .gallery[data-mode="gallery"] &[data-transitioning] img {
+    display: block;
+  }
+
+  // Overlay
+  // -------
+
+  // Base
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.2s;
+    
+    h2 {
+      margin: 0.2rem 0;
+      color: white;
+      text-shadow: 1px 1px #000000;
+    }
+    
+    time {
+      color: black;
+      text-shadow: 1px 1px white;
+    }
+  }
+
+  &[data-transitioning] .overlay {
+    opacity: 0;
+  }
+
+  // Gallery or transitioning from gallery to detail
+  .gallery[data-mode="gallery"] & .overlay,
+  .gallery[data-mode="detail"] &[data-transitioning] .overlay {
+    justify-content: flex-end;
+    padding: calc( var(--gap) / 2 );
+
+    h2 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    
+    time {
+      font-size: 0.6rem;
+      font-weight: 500;
+    }
+  }
+
+  // Detail or transitioning from detail to gallery
+  .gallery[data-mode="detail"] &:not([data-transitioning]) .overlay,
+  .gallery[data-mode="gallery"] &[data-transitioning] .overlay {
+    justify-content: center;
+    padding: calc( var(--gap) * 2 );
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 500;
+      order: 1;
+    }
+
+    time {
+      font-size: 1rem;
+    }
+
+    time::before {
+      content: 'Published on ';
     }
   }
 }

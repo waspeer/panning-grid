@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
-import App from './app';
+import Gallery from './app';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Gallery />
   </React.StrictMode>,
   document.querySelector('#root'),
 );
