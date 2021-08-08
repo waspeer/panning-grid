@@ -167,11 +167,16 @@ html {
   .gallery[data-mode="grid"] & .overlay,
   .gallery[data-mode="detail"] &[data-transitioning] .overlay {
     justify-content: flex-end;
-    padding: calc( var(--gap) / 2 );
+    padding: 2vw;
 
     h2 {
+      display: -webkit-box;
+      overflow: hidden;
       font-size: 1rem;
       font-weight: 600;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
     }
     
     time {
@@ -184,7 +189,7 @@ html {
   .gallery[data-mode="detail"] &:not([data-transitioning]) .overlay,
   .gallery[data-mode="grid"] &[data-transitioning] .overlay {
     justify-content: center;
-    padding: calc( var(--gap) * 2 );
+    padding: 10vw;
 
     h2 {
       font-size: 2.5rem;
